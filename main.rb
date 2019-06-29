@@ -57,7 +57,7 @@ puts startStr + "から" + endStr + "までのデータを取得します"
 # レポート
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
     begin
-        ymd = date.strftime("%Y-%m-%d")
+        ymd = date.strftime("%Y%m%d")
         url = "https://so2-api.mutoys.com/json/report/buy#{ymd}.json"
         puts url + "にアクセスしています"
         open(url) do |rep|
