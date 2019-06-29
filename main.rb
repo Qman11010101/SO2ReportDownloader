@@ -54,63 +54,82 @@ end
 puts startStr + "から" + endStr + "までのデータを取得します"
 
 # 処理部(DLして保存)
-# buy_reports
+# レポート
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
-    ymd = date.strftime("%Y%m%d")
-    url = "https://so2-api.mutoys.com/json/report/buy#{ymd}.json"
-    puts url + "にアクセスしています"
-    open(url) do |rep|
-        open("./so2stockdata/buy_reports/#{ymd}.json", "w+b") do |save|
-            save.write(rep.read)
-        end
-    end
-    sleep(1)
-end
-
-# all_top3_monthly
-(Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
-    ymd = date.strftime("%Y-%m")
-    if File.exist?("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json") == false
-        url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/summary.json"
+    begin
+        ymd = date.strftime("%Y-%m-%d")
+        url = "https://so2-api.mutoys.com/json/report/buy#{ymd}.json"
         puts url + "にアクセスしています"
         open(url) do |rep|
-            open("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json", "w+b") do |save|
+            open("./so2stockdata/buy_reports/#{ymd}.json", "w+b") do |save|
                 save.write(rep.read)
             end
         end
-        sleep(1)
-    end
+        puts "./so2stockdata/buy_reports/#{ymd}.jsonとして保存しました"
+    rescue
+        puts "エラー: " + url + "にアクセスできませんでした"
+    sleep(0.3)
 end
 
-# top1000_monthly
+# 月間全部門トップ3
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
     ymd = date.strftime("%Y-%m")
     if File.exist?("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json") == false
-        (departmentArray.length).times do |element|
-            url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
+        begin
+            url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/summary.json"
             puts url + "にアクセスしています"
             open(url) do |rep|
-                open("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
+                open("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json", "w+b") do |save|
                     save.write(rep.read)
                 end
             end
-            sleep(1)
+            puts "./so2stockdata/ranking/all_top3_monthly/#{ymd}.jsonとして保存しました"
+        rescue
+            puts "エラー: " + url + "にアクセスできませんでした"
         end
-        sleep(1)
+        sleep(0.3)
     end
 end
 
-# top1000_daily
+# 月間部門別トップ1000
+(Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
+    ymd = date.strftime("%Y-%m")
+    if File.exist?("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json") == false
+        (departmentArray.length).times do |element|
+            begin
+                url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
+                puts url + "にアクセスしています"
+                open(url) do |rep|
+                    open("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
+                        save.write(rep.read)
+                    end
+                end
+                puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonとして保存しました"
+            rescue
+                puts "エラー: " + url + "にアクセスできませんでした"
+            end
+            sleep(0.3)
+        end
+        sleep(0.3)
+    end
+end
+
+# デイリートップ1000(部門別)
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
     ymd = date.strftime("%Y-%m-%d")
     (departmentArray.length).times do |element|
-        url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
-        puts url + "にアクセスしています"
-        open(url) do |rep|
-            open("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
-                save.write(rep.read)
-           end
+        begin
+            url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
+            puts url + "にアクセスしています"
+            open(url) do |rep|
+                open("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
+                    save.write(rep.read)
+               end
+            end
+            puts "./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.jsonとして保存しました"
+        rescue
+            puts "エラー: " + url + "にアクセスできませんでした"
         end
-        sleep(1)
+        sleep(0.3)
     end
 end
