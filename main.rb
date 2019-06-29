@@ -133,7 +133,7 @@ end
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
     ymd = date.strftime("%Y-%m-%d")
     (departmentArray.length).times do |element|
-        if File.exist?("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.json")
+        if File.exist?("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.json") == false
             begin
                 url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
                 puts url + "にアクセスしています"
