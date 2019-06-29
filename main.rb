@@ -79,48 +79,54 @@ end
 # 月間全部門トップ3
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
     ymd = date.strftime("%Y-%m")
-    if File.exist?("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json") == false
-        begin
-            url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/summary.json"
-            puts url + "にアクセスしています"
-            open(url) do |rep|
-                open("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json", "w+b") do |save|
-                    save.write(rep.read)
+    if date.strftime("%d") == "28"
+        if File.exist?("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json") == false
+            begin
+                url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/summary.json"
+                puts url + "にアクセスしています"
+                open(url) do |rep|
+                    open("./so2stockdata/ranking/all_top3_monthly/#{ymd}.json", "w+b") do |save|
+                        save.write(rep.read)
+                    end
                 end
+                puts "./so2stockdata/ranking/all_top3_monthly/#{ymd}.jsonとして保存しました"
+                count += 1
+            rescue
+                puts "エラー: " + url + "にアクセスできませんでした"
+                count += 1
             end
-            puts "./so2stockdata/ranking/all_top3_monthly/#{ymd}.jsonとして保存しました"
-        rescue
-            puts "エラー: " + url + "にアクセスできませんでした"
+            sleep(0.4)
+        else
+            puts "./so2stockdata/ranking/all_top3_monthly/#{ymd}.jsonは既に存在しています"
         end
-        sleep(0.4)
-    else
-        puts "./so2stockdata/ranking/all_top3_monthly/#{ymd}.jsonは既に存在しています"
     end
 end
 
 # 月間部門別トップ1000
 (Date.parse(timeStart)..Date.parse(timeEnd)).each do |date|
     ymd = date.strftime("%Y-%m")
-    (departmentArray.length).times do |element|
-        if File.exist?("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json") == false
-            begin
-                url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
-                puts url + "にアクセスしています"
-                open(url) do |rep|
-                    open("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
-                        save.write(rep.read)
+    if date.strftime("%d") == "28"
+        (departmentArray.length).times do |element|
+            if File.exist?("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json") == false
+                begin
+                    url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
+                    puts url + "にアクセスしています"
+                    open(url) do |rep|
+                        open("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
+                            save.write(rep.read)
+                        end
                     end
+                    puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonとして保存しました"
+                rescue
+                    puts "エラー: " + url + "にアクセスできませんでした"
                 end
-                puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonとして保存しました"
-            rescue
-                puts "エラー: " + url + "にアクセスできませんでした"
+                sleep(0.4)
+            else
+                puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonは既に存在しています"
             end
-            sleep(0.4)
-        else
-            puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonは既に存在しています"
         end
+        sleep(0.4)
     end
-    sleep(0.4)
 end
 
 # デイリートップ1000(部門別)
