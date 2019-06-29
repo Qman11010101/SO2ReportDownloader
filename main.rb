@@ -68,6 +68,7 @@ puts startStr + "から" + endStr + "までのデータを取得します"
         puts "./so2stockdata/buy_reports/#{ymd}.jsonとして保存しました"
     rescue
         puts "エラー: " + url + "にアクセスできませんでした"
+    end
     sleep(0.3)
 end
 
