@@ -41,13 +41,13 @@ end
 if Dir.exist?("./so2stockdata/ranking/top1000_daily") == false
     Dir.mkdir("./so2stockdata/ranking/top1000_daily")
 end
-departmentArray = ["point_total", "sale_total", "exp_stock", "exp_sale", "exp_job", "exp_trans", "exp_1", "exp_2", "exp_3", "exp_4", "exp_5", "exp_6", "exp_7", "exp_8", "exp_9", "exp_10", "exp_11", "exp_12", "exp_51", "exp_52", "exp_53", "exp_54", "exp_55", "exp_56", "exp_57", "exp_58", "exp_59", "exp_60", "exp_61", "exp_62", "exp_63", "exp_64", "exp_65", "exp_66", "exp_67", "exp_68", "exp_69", "exp_70"]
-(departmentArray.length).times do |element|
-    if Dir.exist?("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}") == false
-        Dir.mkdir("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}")
+department_array = ["point_total", "sale_total", "exp_stock", "exp_sale", "exp_job", "exp_trans", "exp_1", "exp_2", "exp_3", "exp_4", "exp_5", "exp_6", "exp_7", "exp_8", "exp_9", "exp_10", "exp_11", "exp_12", "exp_51", "exp_52", "exp_53", "exp_54", "exp_55", "exp_56", "exp_57", "exp_58", "exp_59", "exp_60", "exp_61", "exp_62", "exp_63", "exp_64", "exp_65", "exp_66", "exp_67", "exp_68", "exp_69", "exp_70"]
+(department_array.length).times do |element|
+    if Dir.exist?("./so2stockdata/ranking/top1000_monthly/#{department_array[element]}") == false
+        Dir.mkdir("./so2stockdata/ranking/top1000_monthly/#{department_array[element]}")
     end
-    if Dir.exist?("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}") == false
-        Dir.mkdir("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}")
+    if Dir.exist?("./so2stockdata/ranking/top1000_daily/#{department_array[element]}") == false
+        Dir.mkdir("./so2stockdata/ranking/top1000_daily/#{department_array[element]}")
     end
 end
 
@@ -106,23 +106,23 @@ end
 (Date.parse(time_start)..Date.parse(time_end)).each do |date|
     ymd = date.strftime("%Y-%m")
     if date.strftime("%d") == "28"
-        (departmentArray.length).times do |element|
-            if File.exist?("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json") == false
+        (department_array.length).times do |element|
+            if File.exist?("./so2stockdata/ranking/top1000_monthly/#{department_array[element]}/#{ymd}.json") == false
                 begin
-                    url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
+                    url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{department_array[element]}.json"
                     puts url + "にアクセスしています"
                     open(url) do |rep|
-                        open("./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
+                        open("./so2stockdata/ranking/top1000_monthly/#{department_array[element]}/#{ymd}.json", "w+b") do |save|
                             save.write(rep.read)
                         end
                     end
-                    puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonとして保存しました"
+                    puts "./so2stockdata/ranking/top1000_monthly/#{department_array[element]}/#{ymd}.jsonとして保存しました"
                 rescue
                     puts "エラー: " + url + "にアクセスできませんでした"
                 end
                 sleep(0.4)
             else
-                puts "./so2stockdata/ranking/top1000_monthly/#{departmentArray[element]}/#{ymd}.jsonは既に存在しています"
+                puts "./so2stockdata/ranking/top1000_monthly/#{department_array[element]}/#{ymd}.jsonは既に存在しています"
             end
         end
         sleep(0.4)
@@ -132,23 +132,23 @@ end
 # デイリートップ1000(部門別)
 (Date.parse(time_start)..Date.parse(time_end)).each do |date|
     ymd = date.strftime("%Y-%m-%d")
-    (departmentArray.length).times do |element|
-        if File.exist?("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.json") == false
+    (department_array.length).times do |element|
+        if File.exist?("./so2stockdata/ranking/top1000_daily/#{department_array[element]}/#{ymd}.json") == false
             begin
-                url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{departmentArray[element]}.json"
+                url = "https://so2-api.mutoys.com/json/ranking/#{ymd}/#{department_array[element]}.json"
                 puts url + "にアクセスしています"
                 open(url) do |rep|
-                    open("./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.json", "w+b") do |save|
+                    open("./so2stockdata/ranking/top1000_daily/#{department_array[element]}/#{ymd}.json", "w+b") do |save|
                         save.write(rep.read)
                    end
                 end
-                puts "./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.jsonとして保存しました"
+                puts "./so2stockdata/ranking/top1000_daily/#{department_array[element]}/#{ymd}.jsonとして保存しました"
             rescue
                 puts "エラー: " + url + "にアクセスできませんでした"
             end
             sleep(0.4)
         else
-            puts "./so2stockdata/ranking/top1000_daily/#{departmentArray[element]}/#{ymd}.jsonは既に存在しています"
+            puts "./so2stockdata/ranking/top1000_daily/#{department_array[element]}/#{ymd}.jsonは既に存在しています"
         end
     end
 end
