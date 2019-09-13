@@ -19,6 +19,7 @@ end
 
 if end_parsed >= now
     puts "終了日が今日より未来になっています"
+    exit!
 end
 
 # timeオブジェクトを日本語表記に変換
