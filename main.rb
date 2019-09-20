@@ -146,7 +146,7 @@ end
                 open(url) do |rep|
                     open("./so2stockdata/ranking/top1000_daily/#{department_array[element]}/#{ymd}.json", "w+b") do |save|
                         save.write(rep.read)
-                   end
+                    end
                 end
                 puts "./so2stockdata/ranking/top1000_daily/#{department_array[element]}/#{ymd}.jsonとして保存しました"
             rescue
